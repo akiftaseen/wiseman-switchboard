@@ -163,66 +163,15 @@ main { padding-block: 28px 52px; }
   align-items: center;
   gap: 6px;
   padding: 12px 4px;
-  background: var(--tile-surface);
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
 }
 .totals dd {
-  font: 700 var(--text-display)/1 var(--mono);
-  color: var(--tile-color);
-}
-.totals dt {
-  font-size: var(--text-small);
-  color: var(--muted);
-}
-.totals .operational {
-  --tile-color: var(--operational);
-  --tile-surface: var(--operational-surface);
-}
-.totals .degraded {
-  --tile-color: var(--degraded);
-  --tile-surface: var(--degraded-surface);
-}
-.totals .down {
-  --tile-color: var(--down);
-  --tile-surface: var(--down-surface);
-}
-.totals [data-empty="true"] {
-  --tile-color: var(--muted);
-  --tile-surface: var(--paper);
-}
-/* Light mode presents the counts as one group inside the overview. */
-:root:not([data-theme="dark"]) .totals {
-  gap: 0;
-}
-:root:not([data-theme="dark"]) .totals > div {
-  padding: 4px 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-}
-:root:not([data-theme="dark"]) .totals > div + div {
-  border-inline-start: 1px solid var(--line);
-}
-:root:not([data-theme="dark"]) .totals dd {
-  color: var(--ink);
-  font-family: inherit;
+  font-size: var(--text-display);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-}
-:root:not([data-theme="dark"]) .totals [data-empty="true"] dd {
-  color: var(--muted);
-}
-:root:not([data-theme="dark"]) .totals dt {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-:root:not([data-theme="dark"]) .totals dt::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--tile-color);
+  line-height: 1;
 }
 .service-grid {
   display: grid;
@@ -562,10 +511,6 @@ dialog p {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: var(--tile-spacing);
   }
-  :root:not([data-theme="dark"]) .totals {
-    border-top: 1px solid var(--line);
-    padding-top: var(--tile-spacing);
-  }
   .service-grid, .support-grid { grid-template-columns: 1fr; }
   .service-card h2 { margin-top: 10px; }
   .card-bottom {
@@ -575,6 +520,17 @@ dialog p {
   .support-grid { margin-top: 20px; }
   .panel { padding: 18px; }
   .new-request { grid-row: 1; }
+}
+@media (max-width: 420px) {
+  .totals {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .totals > div {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding: 10px 12px;
+  }
 }
 @media (max-width: 380px) {
   .brand { font-size: var(--text-base); }
