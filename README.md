@@ -28,8 +28,8 @@ Use the header appearance button to switch themes. The initial appearance follow
 
 1. On a fresh database, Email and File Share are **Operational** (Up) and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Operational** and save. Recording the same status also updates its check time. Refresh and inspect the card.
 2. In **New request**, try submitting an empty form to see field-specific guidance. Then enter a sample employee name, choose an issue type and describe the problem. Submit once. Look for the assigned request ID, a cleared form and the new Open request at the top of the queue. Failed saves leave the draft available for retry.
-3. A queue item shows its ID, employee, issue type, description, submission time and state. Select **Open**, mark the item resolved, then select **Resolved** to find it again. Restart Express and reload the page to check persistence. A fresh database starts with an empty queue.
-4. Run `npm test` for the six automated API tests. Each uses a disposable database. Coverage includes seeding, same-status checks, validation, ordering, repeated resolution, missing records and persistence after closing and reopening SQLite.
+3. A queue item shows its ID, employee, issue type, description, submission time and state. Select **Open**, mark the item resolved, then select **Resolved** to find it again. On a resolved request, choose **Reopen** to move it back to **Open**. Restart Express and reload the page to check persistence. A fresh database starts with an empty queue.
+4. Run `npm test` for the six automated API tests. Each uses a disposable database. Coverage includes seeding, same-status checks, validation, ordering, repeated state changes, missing records and persistence after closing and reopening SQLite.
 
 ## Implementation
 
@@ -43,7 +43,7 @@ On first start, `server/db.js` creates `data/servicedesk.sqlite`. The seed inser
 | PATCH /api/services/:id | `{"status":"Operational"}` | 200, saved service and check time |
 | GET /api/requests | — | 200, requests newest first, with ID breaking timestamp ties |
 | POST /api/requests | `{"name":"Sam","issueType":"VPN","description":"Sign-in stops."}` | 201, saved Open request |
-| PATCH /api/requests/:id | `{"state":"Resolved"}` | 200, saved request |
+| PATCH /api/requests/:id | `{"state":"Resolved"}` or `{"state":"Open"}` | 200, saved request |
 
 Service IDs are `email`, `vpn` and `file-share`. Status values are Operational, Degraded and Down. Issue types are Email, VPN, File Share, Hardware and Other. The API accepts uncompressed JSON on writes, validates field types and lengths, and returns a JSON `error` message on failure. Invalid request fields also receive a `fields` map. Invalid input returns 400, missing records 404, oversized bodies 413 and unsupported content types 415.
 

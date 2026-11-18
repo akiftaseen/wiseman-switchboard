@@ -53,7 +53,7 @@ test('manual check changes status and time and survives reopening the database',
   assert(Date.parse(checked.data.checkedAt) >= Date.parse(saved.data.checkedAt));
 });
 
-test('creates, lists newest first, resolves idempotently, and persists after restart', async t => {
+test('creates, orders, resolves, and reopens requests across restarts', async t => {
   const { call, restart } = setup(t);
   const first = await call('/api/requests', 'POST', sample);
   assert.equal(first.status, 201);
@@ -70,6 +70,13 @@ test('creates, lists newest first, resolves idempotently, and persists after res
   assert.deepEqual((await call(path, 'PATCH', { state: 'Resolved' })).data, saved.data);
   restart();
   assert.deepEqual((await call('/api/requests')).data, [second.data, saved.data]);
+
+  const reopened = await call(path, 'PATCH', { state: 'Open' });
+  assert.equal(reopened.status, 200);
+  assert.deepEqual(reopened.data, first.data);
+  assert.deepEqual((await call(path, 'PATCH', { state: 'Open' })).data, first.data);
+  restart();
+  assert.deepEqual((await call('/api/requests')).data, [second.data, first.data]);
 });
 
 test('rejects whitespace, excessive lengths, invalid types and unknown issue types', async t => {
@@ -108,7 +115,7 @@ test('rejects invalid transitions, invalid IDs, and absent resources', async t =
   const { call } = setup(t);
   for (const [path, body, status] of [
     ['services/vpn', { status: 'Unknown' }, 400], ['services/unknown', { status: 'Down' }, 404],
-    ['requests/1', { state: 'Open' }, 400], ['requests/-1', { state: 'Resolved' }, 400],
+    ['requests/1', { state: 'Pending' }, 400], ['requests/-1', { state: 'Resolved' }, 400],
     ['requests/1x', { state: 'Resolved' }, 400], ['requests/999', { state: 'Resolved' }, 404]
   ]) {
     const result = await call('/api/' + path, 'PATCH', body);

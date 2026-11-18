@@ -1,23 +1,29 @@
 import { useState } from 'react';
-import { Check, Inbox, Ticket } from 'lucide-react';
+import { Check, Inbox, RotateCcw, Ticket } from 'lucide-react';
+import { requestStates } from '../../shared/domain.js';
 import { api } from '../api.js';
 import { formatTime, ticketId } from '../format.js';
 import Badge from './Badge.jsx';
 
-const filters = ['All', 'Open', 'Resolved'];
+const filters = ['All', ...requestStates];
 
-function RequestItem({ item, onResolve }) {
+function RequestItem({ item, onStateChange }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const label = ticketId(item.id);
 
-  async function resolveRequest() {
+  const isOpen = item.state === 'Open';
+  const nextState = isOpen ? 'Resolved' : 'Open';
+  const ActionIcon = isOpen ? Check : RotateCcw;
+  const action = isOpen ? 'Mark resolved' : 'Reopen';
+
+  async function updateState() {
     setSaving(true);
     setError('');
 
     try {
-      const updated = await api(`requests/${item.id}`, 'PATCH', { state: 'Resolved' });
-      onResolve(updated);
+      const updated = await api(`requests/${item.id}`, 'PATCH', { state: nextState });
+      onStateChange(updated);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,17 +41,16 @@ function RequestItem({ item, onResolve }) {
       <p className="description">{item.description}</p>
       <div className="ticket-bottom">
         <span>{item.name} · <time dateTime={item.createdAt}>{formatTime(item.createdAt)}</time></span>
-        {item.state === 'Open' && (
-          <button
-            className="text-button"
-            onClick={resolveRequest}
-            disabled={saving}
-            aria-label={`Mark ${label} resolved`}
-          >
-            <Check size={14} />
-            {saving ? 'Saving…' : 'Mark resolved'}
-          </button>
-        )}
+        <button
+          type="button"
+          className="text-button"
+          onClick={updateState}
+          disabled={saving}
+          aria-label={isOpen ? `Mark ${label} resolved` : `Reopen ${label}`}
+        >
+          <ActionIcon size={14} aria-hidden="true" />
+          {saving ? 'Saving…' : action}
+        </button>
       </div>
       {error && <p role="alert" className="error">{error}</p>}
     </li>
@@ -63,14 +68,14 @@ function EmptyQueue({ filter }) {
   );
 }
 
-export default function RequestQueue({ items, filter, onFilterChange, onResolve, children }) {
+export default function RequestQueue({ items, filter, onFilterChange, onStateChange, children }) {
   const visibleItems = items.filter(item => filter === 'All' || item.state === filter);
   let content = children;
 
   if (!content && visibleItems.length) {
     content = (
       <ul className="tickets">
-        {visibleItems.map(item => <RequestItem key={item.id} item={item} onResolve={onResolve} />)}
+        {visibleItems.map(item => <RequestItem key={item.id} item={item} onStateChange={onStateChange} />)}
       </ul>
     );
   }

@@ -68,9 +68,10 @@ export default function App() {
     setNotice('');
   }
 
-  function resolveRequest(updated) {
+  function updateRequestState(updated) {
     requests.setItems(items => items.map(item => item.id === updated.id ? updated : item));
-    setNotice(ticketId(updated.id) + ' marked resolved.');
+    const action = updated.state === 'Resolved' ? 'marked resolved' : 'reopened';
+    setNotice(`${ticketId(updated.id)} ${action}.`);
   }
 
   return (
@@ -79,7 +80,7 @@ export default function App() {
       <header className="masthead">
         <div className="shell mast-inner">
           <a className="brand" href="#main">
-            <img src="/wiseman.svg" className="brand-logo" width="33" height="33" alt="" />
+            <img src="/wiseman.svg" className="brand-logo" width="46" height="46" alt="" />
             Switchboard
           </a>
           <ThemeToggle />
@@ -96,7 +97,7 @@ export default function App() {
             items={requests.items}
             filter={filter}
             onFilterChange={setFilter}
-            onResolve={resolveRequest}
+            onStateChange={updateRequestState}
           >
             {!requests.ready && <LoadState collection={requests} />}
           </RequestQueue>

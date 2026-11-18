@@ -1,6 +1,6 @@
 import express from 'express';
 import { fileURLToPath } from 'node:url';
-import { requestErrors, statuses } from '../shared/domain.js';
+import { requestErrors, requestStates, statuses } from '../shared/domain.js';
 import { prepareQueries } from './db.js';
 
 export function createApp(db) {
@@ -56,9 +56,12 @@ export function createApp(db) {
     if (!/^[1-9]\d*$/.test(req.params.id) || !Number.isSafeInteger(Number(req.params.id))) {
       return res.status(400).json({ error: 'Use a positive integer request ID.' });
     }
-    if (req.body?.state !== 'Resolved') return res.status(400).json({ error: 'Choose Resolved to close a request.' });
+    const state = req.body?.state;
+    if (!requestStates.includes(state)) {
+      return res.status(400).json({ error: 'Choose Open or Resolved.' });
+    }
 
-    const request = queries.resolveRequest.get(req.params.id);
+    const request = queries.updateRequestState.get(state, req.params.id);
     if (!request) return res.status(404).json({ error: 'Request not found.' });
     res.json(request);
   });

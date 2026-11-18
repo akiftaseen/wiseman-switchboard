@@ -45,6 +45,6 @@ export function prepareQueries(db) {
       VALUES (?, ?, ?, ?)
       RETURNING *
     `),
-    resolveRequest: db.prepare("UPDATE requests SET state = 'Resolved' WHERE id = ? RETURNING *")
+    updateRequestState: db.prepare('UPDATE requests SET state = ? WHERE id = ? RETURNING *')
   };
 }
