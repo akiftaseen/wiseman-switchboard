@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react';
-import { CalendarDays, PanelsTopLeft } from 'lucide-react';
 import { api } from './api.js';
 import { ticketId } from './format.js';
 import Services from './components/Services.jsx';
 import RequestForm from './components/RequestForm.jsx';
 import RequestQueue from './components/RequestQueue.jsx';
 import ThemeToggle from './components/ThemeToggle.jsx';
-
-const dateLabel = new Intl.DateTimeFormat(undefined, {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
-});
 
 function useCollection(path) {
   const [items, setItems] = useState([]);
@@ -90,24 +82,10 @@ export default function App() {
             <img src="/wiseman.svg" className="brand-logo" width="33" height="33" alt="" />
             Switchboard
           </a>
-          <span className="mast-divider" />
-          <span className="workspace">IT workspace</span>
           <ThemeToggle />
         </div>
       </header>
       <main className="shell" id="main">
-        <div className="page-heading">
-          <div>
-            <div className="breadcrumb">
-              <PanelsTopLeft size={14} /> Workspace <span>/</span> Overview
-            </div>
-            <h1>Service desk</h1>
-          </div>
-          <div className="today">
-            <CalendarDays size={15} />
-            {dateLabel.format(new Date())}
-          </div>
-        </div>
         {services.ready ? (
           <Services services={services.items} onUpdate={updateService} />
         ) : (

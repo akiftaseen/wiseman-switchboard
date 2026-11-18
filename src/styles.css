@@ -86,7 +86,7 @@ svg { flex-shrink: 0; }
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
-.mast-inner, .brand, .today, .breadcrumb, .panel-heading, .service-top, .card-bottom,
+.mast-inner, .brand, .panel-heading, .service-top, .card-bottom,
 .text-button, .badge, .sample-note, .ticket-heading, .dialog-actions, .primary-button, .feedback {
   display: flex;
   align-items: center;
@@ -101,15 +101,6 @@ svg { flex-shrink: 0; }
   font-weight: 730;
   font-size: 21px;
   letter-spacing: -.9px;
-}
-.mast-divider {
-  height: 21px;
-  width: 1px;
-  background: var(--line);
-}
-.workspace, .today {
-  font-size: 13px;
-  color: var(--muted);
 }
 :root[data-theme="dark"] .brand-logo {
   filter: brightness(1.8);
@@ -130,29 +121,7 @@ svg { flex-shrink: 0; }
 }
 .theme-toggle:hover, .theme-toggle[aria-pressed="true"] { background: var(--surface); }
 .text-button:hover { text-decoration: underline; }
-main { padding-bottom: 52px; }
-.page-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin: 30px 0 22px;
-  gap: 14px;
-}
-.breadcrumb {
-  gap: 8px;
-  color: var(--muted);
-  font-size: 12px;
-}
-h1 {
-  font-size: clamp(32px, 4vw, 44px);
-  letter-spacing: -.055em;
-  line-height: 1.12;
-  margin-top: 11px;
-}
-.today {
-  gap: 7px;
-  margin-bottom: 5px;
-}
+main { padding-block: 28px 52px; }
 
 /* Service overview and cards */
 .status-board {
@@ -165,8 +134,8 @@ h1 {
   justify-content: space-between;
   gap: 24px;
 }
-.board-copy h2 {
-  font-size: clamp(20px, 2.5vw, 25px);
+.board-copy h1 {
+  font-size: clamp(24px, 3vw, 32px);
   margin-bottom: 7px;
   letter-spacing: -.035em;
   line-height: 1.15;
@@ -178,20 +147,22 @@ h1 {
 }
 .totals {
   display: grid;
-  grid-template-columns: repeat(3, minmax(96px, 1fr));
+  grid-template-columns: repeat(3, minmax(106px, 1fr));
+  gap: 8px;
   flex-shrink: 0;
 }
 .totals > div {
   display: flex;
   flex-direction: column-reverse;
-  gap: 5px;
-  padding-inline: 20px;
-  border-inline-start: 1px solid var(--line);
+  align-items: center;
+  gap: 6px;
+  padding: 12px 6px;
+  background: var(--well);
+  border: 1px solid var(--line);
+  border-radius: 10px;
 }
-.totals > div:last-child { padding-inline-end: 0; }
 .totals dd {
-  font: 650 32px/1.05 var(--mono);
-  letter-spacing: -.055em;
+  font: 700 34px/1 var(--mono);
 }
 .totals dt {
   font-size: 12px;
@@ -260,7 +231,7 @@ h1 {
   border-radius: 50%;
   background: currentColor;
 }
-.service-card h3 {
+.service-card h2 {
   font-size: 20px;
   letter-spacing: -.045em;
   margin: 15px 0 4px;
@@ -522,7 +493,6 @@ dialog p {
   .shell { width: calc(100% - 40px); }
   .service-grid { gap: 10px; }
   .service-card { padding: 16px; }
-  .totals > div { padding: 0 13px; }
   .support-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
 }
 @media (max-width: 680px) {
@@ -532,33 +502,18 @@ dialog p {
     gap: 8px;
   }
   .brand { font-size: 19px; }
-  .workspace, .mast-divider { display: none; }
-  .page-heading {
-    align-items: start;
-    margin: 23px 0 16px;
-  }
-  .today {
-    font-size: 11px;
-    align-self: flex-end;
-  }
+  main { padding-block-start: 18px; }
   .status-board {
     display: block;
     padding: 20px;
   }
   .totals {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
     margin-top: 16px;
-    padding-top: 13px;
   }
-  .totals > div { padding-inline: 12px; }
-  .totals > div:first-child {
-    padding-inline-start: 0;
-    border: 0;
-  }
-  .totals dd { font-size: 24px; }
+  .totals dd { font-size: 28px; }
   .service-grid, .support-grid { grid-template-columns: 1fr; }
-  .service-card h3 { margin-top: 10px; }
+  .service-card h2 { margin-top: 10px; }
   .card-bottom {
     margin-top: 12px;
     padding-top: 9px;
@@ -569,7 +524,6 @@ dialog p {
   input, select, textarea { font-size: 16px; }
 }
 @media (max-width: 380px) {
-  .today { display: none; }
   .totals dt { font-size: 11px; }
   .theme-toggle span { display: none; }
 }

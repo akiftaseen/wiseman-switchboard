@@ -22,7 +22,7 @@ function ServiceCard({ service, onRecordCheck }) {
         </span>
         <Badge value={service.status} />
       </div>
-      <h3>{service.name}</h3>
+      <h2>{service.name}</h2>
       <p>{description}</p>
       <div className="card-bottom">
         <div className="checked">
@@ -66,7 +66,7 @@ export default function Services({ services, onUpdate }) {
     <section aria-label="Service status">
       <div className="status-board">
         <div className="board-copy">
-          <h2>Service overview</h2>
+          <h1>Service overview</h1>
           <p>{heading}.{summary && ` ${summary}`}</p>
         </div>
         <dl className="totals">
