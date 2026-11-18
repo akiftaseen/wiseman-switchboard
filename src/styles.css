@@ -15,8 +15,8 @@
   --line: #dbe3e6;
   --control-line: #9aaeb6;
   --accent: #00656e;
-  --action: #00656e;
-  --action-hover: #00545c;
+  --action: #29313b;
+  --action-hover: #1c232c;
   --on-action: #ffffff;
   --focus: #0879ad;
   --operational: #135c48;
@@ -79,6 +79,7 @@ a { color: inherit; }
   outline-offset: 3px;
 }
 h1, h2, h3, p, dl, dd { margin: 0; }
+h2, h3 { font-size: var(--text-base); }
 svg { flex-shrink: 0; }
 .shell {
   width: min(1184px, calc(100% - 80px));
@@ -103,7 +104,7 @@ svg { flex-shrink: 0; }
   text-decoration: none;
   gap: 9px;
   font-weight: 730;
-  font-size: var(--text-base);
+  font-size: var(--text-display);
   letter-spacing: -.025em;
 }
 :root[data-theme="dark"] .brand-logo {
@@ -123,7 +124,7 @@ svg { flex-shrink: 0; }
   font-size: var(--text-small);
   font-weight: 600;
 }
-.theme-toggle:hover, .theme-toggle[aria-pressed="true"] { background: var(--surface); }
+.theme-toggle:hover { background: var(--surface); }
 .text-button:hover { text-decoration: underline; }
 main { padding-block: 28px 52px; }
 
@@ -209,11 +210,11 @@ main { padding-block: 28px 52px; }
 .service-icon, .empty-icon {
   display: inline-grid;
   place-items: center;
-  border-radius: 10px;
 }
 .service-icon {
-  width: 50px;
-  height: 50px;
+  width: 54px;
+  height: 44px;
+  border-radius: 8px;
   background: var(--surface);
   color: var(--muted);
 }
@@ -251,7 +252,6 @@ main { padding-block: 28px 52px; }
   background: currentColor;
 }
 .service-card h2 {
-  font-size: var(--text-base);
   letter-spacing: -.02em;
   margin: 15px 0 4px;
 }
@@ -311,7 +311,6 @@ main { padding-block: 28px 52px; }
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: var(--text-base);
   letter-spacing: -.02em;
 }
 .count {
@@ -357,13 +356,13 @@ main { padding-block: 28px 52px; }
   padding: 18px;
 }
 .empty-icon {
+  border-radius: 10px;
   width: 48px;
   height: 48px;
   background: var(--surface);
   color: var(--muted);
 }
 .empty h3 {
-  font-size: var(--text-base);
   letter-spacing: -.025em;
   margin: 12px 0 4px;
 }
@@ -443,10 +442,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   font: var(--text-small) var(--mono);
   color: var(--muted);
 }
-.ticket h3 {
-  margin: 8px 0 4px;
-  font-size: var(--text-base);
-}
+.ticket h3 { margin: 8px 0 4px; }
 .description {
   white-space: pre-wrap;
   font-size: var(--text-base);
@@ -540,5 +536,5 @@ dialog p {
   .new-request { grid-row: 1; }
 }
 @media (max-width: 380px) {
-  .theme-toggle span { display: none; }
+  .brand { font-size: var(--text-base); }
 }

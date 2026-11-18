@@ -17,13 +17,15 @@ function initialTheme() {
 export default function ThemeToggle() {
   const [theme, setTheme] = useState(initialTheme);
   const isDark = theme === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  const label = isDark ? 'Light mode' : 'Dark mode';
+  const Icon = isDark ? Sun : Moon;
 
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
 
   function toggleTheme() {
-    const next = isDark ? 'light' : 'dark';
     setTheme(next);
 
     try {
@@ -34,15 +36,9 @@ export default function ThemeToggle() {
   }
 
   return (
-    <button
-      type="button"
-      className="theme-toggle"
-      aria-label="Dark mode"
-      aria-pressed={isDark}
-      onClick={toggleTheme}
-    >
-      {isDark ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
-      <span>Dark mode</span>
+    <button type="button" className="theme-toggle" onClick={toggleTheme}>
+      <Icon size={17} aria-hidden="true" />
+      {label}
     </button>
   );
 }
