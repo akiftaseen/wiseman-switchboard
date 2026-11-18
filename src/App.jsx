@@ -121,7 +121,6 @@ export default function App() {
           <RequestQueue
             items={requests.items}
             filter={filter}
-            notice={notice}
             onFilterChange={setFilter}
             onResolve={resolveRequest}
           >
@@ -129,6 +128,7 @@ export default function App() {
           </RequestQueue>
           <RequestForm ready={requests.ready} onCreate={addRequest} />
         </div>
+        <div role="status" className="feedback">{notice}</div>
       </main>
     </>
   );

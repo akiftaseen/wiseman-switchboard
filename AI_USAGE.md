@@ -4,7 +4,7 @@ OpenAI Codex assisted with the original prototype and this revision. It generate
 
 Codex installed the dependencies, built the frontend and ran the six API tests. It also exercised the built React interface in a simulated DOM connected to the real Express app and a temporary SQLite file, and ran a local SQLite backup-and-restore drill. The execution environment restricted listening ports and browser launch, so these checks did not include a live desktop or phone browser walkthrough.
 
-Claude (Anthropic) reviewed the project against the brief. Codex then updated the Node version requirement, dependencies and written answers in response. Claude ran the built app in a desktop browser and a phone-sized viewport. It then renamed the Operational status to Up to match the brief and added a one-time upgrade for existing databases, with a test. It also moved the request-resolved confirmation into the queue panel.
+Claude provided a second review of the Node version requirement, dependency warnings, and written answers. Codex checked the feedback against the project and implemented the follow-up changes.
 
 Technical references used for the implementation and written answers
 

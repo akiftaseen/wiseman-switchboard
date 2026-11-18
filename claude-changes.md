@@ -1,6 +1,8 @@
 # Changes made by Claude
 
-A record of everything Claude (Anthropic, Claude Code) changed in this project, so other assistants such as ChatGPT or Codex can follow along. Everything here happened on 2026-11-18. Paths are relative to the repository root.
+A record of everything Claude (Anthropic, Claude Code) changed in this project, so other assistants such as ChatGPT or Codex can follow along. Paths are relative to the repository root.
+
+> **Current status (2026-11-19): all of Claude's file edits have been reverted.** At the user's request, every file was restored to the version Codex (ChatGPT) left. The revert is the commit "Revert Claude's edits to Codex's versions" on `review-fixes`. See the "Revert" section at the end. Sections 1–7 below describe edits that **no longer exist in the code**. They are kept only as a history.
 
 ## Summary
 
@@ -124,3 +126,25 @@ Ran `npm run build`, which regenerated `dist/` (`index-CvlkewhI.js`, `index-za0a
 - The two earlier commits are still credited to "OpenAI Codex".
 - The `picomatch` audit warning remains. npm's only fix is downgrading Vite.
 - `claude-changes.md` (this file) is not committed.
+
+## Revert (2026-11-19)
+
+The user asked Claude to restore every file to the version Codex (ChatGPT) made, because something was broken.
+
+**Cause of the breakage.** The user's server on port 3001 had been running since 23:14 on 2026-11-18, which was older code that stores and accepts only `Operational`. When Claude ran `npm run build`, that running server started serving the new frontend from `dist/`. The new frontend expected `Up`, so the page and status saving stopped matching the server. The database upgrade never ran, because that server was never restarted.
+
+**What was restored.** Each file now matches Codex's version exactly. Claude confirmed this with `git hash-object`, comparing against the file fingerprints recorded before Claude's edits.
+- Back to the `7521855` originals, since Codex hadn't changed them: `shared/domain.js`, `src/styles.css`, `.gitignore`, `INTERVIEW_NOTES.md`.
+- Back to Codex's uncommitted versions: `server/db.js` (original `openDatabase` plus Codex's `prepareQueries`, with no upgrade code), `server/app.js`, `tests/api.test.js` (keeps Codex's gzip test; Claude's upgrade test is removed), `README.md`, `AI_USAGE.md`, `DEMO_SCRIPT.md`.
+- Claude's edits removed from Codex's refactored files: `src/App.jsx` (bottom notice back in place), `src/components/RequestQueue.jsx` (no `notice` prop), `src/components/Services.jsx` (`Operational` wording).
+- `DEMO_SCRIPT.md` and `INTERVIEW_NOTES.md` moved back to the repo root and tracked again. The `prep-notes/` folder was removed.
+- Codex's own changes were left untouched: `package.json`, `package-lock.json`, `src/components/CheckDialog.jsx`, `RequestForm.jsx`, `Badge.jsx`, `tests/http.js`, `ASSESSMENT_ANSWERS.md`.
+
+**Checks after the revert**
+- `npm test`: 6 of 6 passed.
+- `npm run build` produced `index-DWGzpqTE.js` and `index-Deu7cjqu.css`. These are the same file names and fingerprints as Codex's earlier build.
+- The running app on port 3001 loads with `Operational` labels and correct totals, with no console errors.
+
+**Database.** `data/servicedesk.sqlite` was never changed by Claude. It still uses the `Operational` schema, so nothing needed restoring.
+
+**What remains from Claude.** Only this file and the commit history on `review-fixes`. `main` is still at `7521855`, without Codex's later changes. Nothing was pushed.

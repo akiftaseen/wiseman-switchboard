@@ -40,18 +40,18 @@ function ServiceCard({ service, onRecordCheck }) {
 export default function Services({ services, onUpdate }) {
   const [editing, setEditing] = useState(null);
   const [notice, setNotice] = useState('');
-  const counts = { Up: 0, Degraded: 0, Down: 0 };
+  const counts = { Operational: 0, Degraded: 0, Down: 0 };
 
   for (const service of services) counts[service.status]++;
 
-  const affected = services.filter(service => service.status !== 'Up');
-  let heading = 'All services up';
+  const affected = services.filter(service => service.status !== 'Operational');
+  let heading = 'All services operational';
   if (counts.Down === services.length) heading = 'Service outage';
   else if (affected.length) heading = 'Partial disruption';
 
   const summary = affected.length
     ? affected.map(service => `${service.name} is marked ${service.status.toLowerCase()}.`).join(' ')
-    : 'All three services are marked up.';
+    : 'All three services are marked operational.';
 
   function openCheckDialog(service) {
     setNotice('');

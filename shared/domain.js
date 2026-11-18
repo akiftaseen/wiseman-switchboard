@@ -1,4 +1,4 @@
-export const statuses = ['Up', 'Degraded', 'Down'];
+export const statuses = ['Operational', 'Degraded', 'Down'];
 export const issueTypes = ['Email', 'VPN', 'File Share', 'Hardware', 'Other'];
 export const limits = { name: 80, description: 2000 };
 

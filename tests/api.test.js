@@ -4,7 +4,6 @@ import { createServer } from 'node:http';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { DatabaseSync } from 'node:sqlite';
 import { createApp } from '../server/app.js';
 import { openDatabase } from '../server/db.js';
 import { send } from './http.js';
@@ -32,7 +31,7 @@ test('seeds the three sample checks and an empty queue', async t => {
   const services = await call('/api/services');
   assert.equal(services.status, 200);
   assert.deepEqual(services.data.map(s => [s.name, s.status]), [
-    ['Email', 'Up'], ['VPN', 'Degraded'], ['File Share', 'Up']
+    ['Email', 'Operational'], ['VPN', 'Degraded'], ['File Share', 'Operational']
   ]);
   assert(services.data.every(s => Number.isFinite(Date.parse(s.checkedAt))));
   assert.deepEqual((await call('/api/requests')).data, []);
@@ -117,33 +116,4 @@ test('rejects invalid transitions, invalid IDs, and absent resources', async t =
     assert(result.data.error);
   }
   assert.equal((await call('/api/missing')).status, 404);
-});
-
-test('upgrades a database that stored Operational to the Up status', async t => {
-  const folder = mkdtempSync(join(tmpdir(), 'switchboard-test-'));
-  const path = join(folder, 'old.sqlite');
-  const old = new DatabaseSync(path);
-  old.exec(`
-    CREATE TABLE services (
-      id TEXT PRIMARY KEY, name TEXT NOT NULL,
-      status TEXT NOT NULL CHECK (status IN ('Operational','Degraded','Down')),
-      checkedAt TEXT NOT NULL
-    );
-    INSERT INTO services VALUES
-      ('email', 'Email', 'Operational', '2026-11-18T10:00:00.000Z'),
-      ('vpn', 'VPN', 'Down', '2026-11-18T10:05:00.000Z'),
-      ('file-share', 'File Share', 'Operational', '2026-11-18T10:10:00.000Z');
-  `);
-  old.close();
-  const db = openDatabase(path);
-  const server = createServer(createApp(db));
-  t.after(() => { db.close(); rmSync(folder, { recursive: true, force: true }); });
-
-  const services = await send(server, '/api/services');
-  assert.deepEqual(services.data.map(s => [s.id, s.status, s.checkedAt]), [
-    ['email', 'Up', '2026-11-18T10:00:00.000Z'],
-    ['vpn', 'Down', '2026-11-18T10:05:00.000Z'],
-    ['file-share', 'Up', '2026-11-18T10:10:00.000Z']
-  ]);
-  assert.equal((await send(server, '/api/services/vpn', 'PATCH', { status: 'Up' })).data.status, 'Up');
 });

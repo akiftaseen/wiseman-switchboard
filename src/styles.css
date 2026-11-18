@@ -17,7 +17,7 @@ button, input, select, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button, select { cursor: pointer; }
 button { color: inherit; }
-button:disabled { opacity: .6; cursor: not-allowed; }
+button:disabled { opacity: .6; cursor: wait; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid #177ead; outline-offset: 3px; }
 h1,h2,h3,p,dl,dd { margin: 0; }
@@ -52,7 +52,7 @@ h1 { font-size: clamp(32px, 4vw, 44px); letter-spacing: -.055em; line-height: 1.
 .totals dd { font: 400 32px/1.05 var(--mono); letter-spacing: -.075em; }
 .totals dt { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #e3eee7; }
 .dot, .badge i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.dot.up { color: #a2e6af; } .dot.degraded { color: #ffcd71; } .dot.down { color: #ff9690; }
+.dot.operational { color: #a2e6af; } .dot.degraded { color: #ffcd71; } .dot.down { color: #ff9690; }
 .service-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 16px 0 12px; }
 .service-card,.panel,dialog { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
 .service-card { padding: 20px 20px 15px; }
@@ -63,7 +63,7 @@ h1 { font-size: clamp(32px, 4vw, 44px); letter-spacing: -.055em; line-height: 1.
 .vpn { background: #f0ebf9; color: #765a9b; }
 .file-share { background: #f9efdf; color: #8e682a; }
 .badge { display: inline-flex; gap: 6px; border-radius: 30px; padding: 4px 9px; font-size: 11.5px; font-weight: 650; white-space: nowrap; line-height: 1.2; }
-.badge.up,.badge.resolved { color: #1b6145; background: #e7f4ea; }
+.badge.operational,.badge.resolved { color: #1b6145; background: #e7f4ea; }
 .badge.degraded { color: #855207; background: #fff1d4; }
 .badge.down { color: #983b38; background: #fce9e6; }
 .badge.open { color: #2e6096; background: #e9f1fc; }
@@ -101,7 +101,6 @@ input::placeholder,textarea::placeholder { color: #63756b; }
 .feedback { color: var(--green); gap: 5px; font-size: 13px; }
 .feedback:not(:empty) { margin-top: 8px; }
 .feedback:empty { display: none; }
-.queue-notice:not(:empty) { margin: -5px 0 12px; }
 .tickets { margin: 0; padding: 0; list-style: none; }
 .ticket { padding: 16px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
 .ticket:last-child { padding-bottom: 0; }

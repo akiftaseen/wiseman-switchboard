@@ -24,7 +24,7 @@ export function createApp(db) {
   app.patch('/api/services/:id', (req, res) => {
     const { status } = req.body ?? {};
     if (!statuses.includes(status)) {
-      return res.status(400).json({ error: 'Choose Up, Degraded, or Down.' });
+      return res.status(400).json({ error: 'Choose Operational, Degraded, or Down.' });
     }
 
     const service = queries.recordCheck.get(status, new Date().toISOString(), req.params.id);

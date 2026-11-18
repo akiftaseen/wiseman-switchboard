@@ -63,7 +63,7 @@ function EmptyQueue({ filter }) {
   );
 }
 
-export default function RequestQueue({ items, filter, notice, onFilterChange, onResolve, children }) {
+export default function RequestQueue({ items, filter, onFilterChange, onResolve, children }) {
   const visibleItems = items.filter(item => filter === 'All' || item.state === filter);
   let content = children;
 
@@ -92,9 +92,6 @@ export default function RequestQueue({ items, filter, notice, onFilterChange, on
             {value}
           </button>
         ))}
-      </div>
-      <div role="status" className="feedback queue-notice">
-        {notice ? <><Check size={15} />{notice}</> : null}
       </div>
       {content || <EmptyQueue filter={filter} />}
     </section>
