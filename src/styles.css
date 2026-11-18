@@ -1,8 +1,9 @@
-/* Color tokens are shared by both appearances. */
+/* Color and type tokens are shared by both appearances. */
 :root {
   color-scheme: light;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
+  font-size: var(--text-base);
   color: var(--ink);
   background: var(--canvas);
   --canvas: #f5f7f8;
@@ -18,16 +19,19 @@
   --action-hover: #00545c;
   --on-action: #ffffff;
   --focus: #0879ad;
-  --operational: #105537;
-  --operational-surface: #e6f4ec;
-  --degraded: #6b4008;
-  --degraded-surface: #fff1d8;
-  --down: #84262f;
-  --down-surface: #fcebec;
+  --operational: #135c48;
+  --operational-surface: #d9f2e6;
+  --degraded: #744608;
+  --degraded-surface: #ffebbe;
+  --down: #892d45;
+  --down-surface: #f9e1e9;
   --open: #2c5c91;
   --open-surface: #e9f1fc;
   --backdrop: #10282d66;
   --shadow: #10282d20;
+  --text-small: 12px;
+  --text-base: 16px;
+  --text-display: 30px;
   --radius: 14px;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
@@ -47,12 +51,12 @@
   --action-hover: #fbfbfc;
   --on-action: #171717;
   --focus: #9aceff;
-  --operational: #a3edbb;
-  --operational-surface: #1b2c21;
-  --degraded: #ffd68e;
-  --degraded-surface: #33281b;
-  --down: #ffbbc1;
-  --down-surface: #352126;
+  --operational: #9ce5cb;
+  --operational-surface: #213b32;
+  --degraded: #f7d795;
+  --degraded-surface: #3b2f1d;
+  --down: #f6b4c7;
+  --down-surface: #3e2832;
   --open: #a6cffb;
   --open-surface: #243b54;
   --backdrop: #080808cc;
@@ -99,8 +103,8 @@ svg { flex-shrink: 0; }
   text-decoration: none;
   gap: 9px;
   font-weight: 730;
-  font-size: 21px;
-  letter-spacing: -.9px;
+  font-size: var(--text-base);
+  letter-spacing: -.025em;
 }
 :root[data-theme="dark"] .brand-logo {
   filter: brightness(1.8);
@@ -116,7 +120,7 @@ svg { flex-shrink: 0; }
   min-height: 40px;
   padding: 0 12px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
 }
 .theme-toggle:hover, .theme-toggle[aria-pressed="true"] { background: var(--surface); }
@@ -136,13 +140,13 @@ main { padding-block: 28px 52px; }
   gap: var(--tile-spacing);
 }
 .board-copy h1 {
-  font-size: clamp(24px, 3vw, 32px);
+  font-size: var(--text-display);
   margin-bottom: 7px;
   letter-spacing: -.035em;
   line-height: 1.15;
 }
 .board-copy p {
-  font-size: 13px;
+  font-size: var(--text-small);
   color: var(--muted);
   line-height: 1.5;
 }
@@ -163,11 +167,11 @@ main { padding-block: 28px 52px; }
   border-radius: 10px;
 }
 .totals dd {
-  font: 700 34px/1 var(--mono);
+  font: 700 var(--text-display)/1 var(--mono);
   color: var(--tile-color);
 }
 .totals dt {
-  font-size: 12px;
+  font-size: var(--text-small);
   color: var(--muted);
 }
 .totals .operational {
@@ -208,8 +212,8 @@ main { padding-block: 28px 52px; }
   border-radius: 10px;
 }
 .service-icon {
-  width: 39px;
-  height: 39px;
+  width: 50px;
+  height: 50px;
   background: var(--surface);
   color: var(--muted);
 }
@@ -218,7 +222,7 @@ main { padding-block: 28px 52px; }
   gap: 6px;
   border-radius: 30px;
   padding: 4px 9px;
-  font-size: 11.5px;
+  font-size: var(--text-small);
   font-weight: 650;
   white-space: nowrap;
   line-height: 1.2;
@@ -247,12 +251,12 @@ main { padding-block: 28px 52px; }
   background: currentColor;
 }
 .service-card h2 {
-  font-size: 20px;
-  letter-spacing: -.045em;
+  font-size: var(--text-base);
+  letter-spacing: -.02em;
   margin: 15px 0 4px;
 }
 .service-card p, .empty p {
-  font-size: 13px;
+  font-size: var(--text-small);
   color: var(--muted);
   line-height: 1.5;
 }
@@ -267,11 +271,11 @@ main { padding-block: 28px 52px; }
   gap: 4px;
   align-items: center;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--text-small);
   margin-bottom: 3px;
 }
 .checked time {
-  font-size: 11.5px;
+  font-size: var(--text-small);
   font-variant-numeric: tabular-nums;
 }
 .text-button {
@@ -281,11 +285,11 @@ main { padding-block: 28px 52px; }
   padding: 5px 0;
   background: transparent;
   color: var(--accent);
-  font-size: 12px;
+  font-size: var(--text-small);
   font-weight: 650;
 }
 .sample-note {
-  font-size: 12px;
+  font-size: var(--text-small);
   color: var(--muted);
   gap: 7px;
   line-height: 1.4;
@@ -307,15 +311,15 @@ main { padding-block: 28px 52px; }
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 20px;
-  letter-spacing: -.045em;
+  font-size: var(--text-base);
+  letter-spacing: -.02em;
 }
 .count {
   border-radius: 6px;
   padding: 3px 7px;
   color: var(--muted);
   background: var(--surface);
-  font: 12px var(--mono);
+  font: var(--text-small) var(--mono);
 }
 .muted-icon { color: var(--muted); }
 .filter {
@@ -331,7 +335,7 @@ main { padding-block: 28px 52px; }
   background: transparent;
   padding: 5px 13px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: var(--text-small);
   color: var(--muted);
 }
 .filter button[aria-pressed="true"] {
@@ -359,7 +363,7 @@ main { padding-block: 28px 52px; }
   color: var(--muted);
 }
 .empty h3 {
-  font-size: 16px;
+  font-size: var(--text-base);
   letter-spacing: -.025em;
   margin: 12px 0 4px;
 }
@@ -370,7 +374,7 @@ main { padding-block: 28px 52px; }
 }
 label {
   display: block;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -380,7 +384,7 @@ input, select, textarea {
   background: var(--paper);
   border-radius: 7px;
   padding: 9px 11px;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.4;
   color: var(--ink);
 }
@@ -394,7 +398,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 [aria-invalid="true"] { border-color: var(--down); }
 .error {
   color: var(--down);
-  font-size: 13px;
+  font-size: var(--text-small);
   line-height: 1.4;
   display: block;
   margin-top: 5px;
@@ -402,7 +406,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 .primary-button, .secondary-button {
   border-radius: 7px;
   padding: 10px 15px;
-  font-size: 13px;
+  font-size: var(--text-small);
   font-weight: 650;
 }
 .primary-button {
@@ -420,7 +424,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 .feedback {
   color: var(--accent);
   gap: 5px;
-  font-size: 13px;
+  font-size: var(--text-small);
 }
 .feedback:not(:empty) { margin-top: 8px; }
 .feedback:empty { display: none; }
@@ -436,16 +440,16 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
 }
 .ticket:last-child { padding-bottom: 0; }
 .ticket-id {
-  font: 12px var(--mono);
+  font: var(--text-small) var(--mono);
   color: var(--muted);
 }
 .ticket h3 {
   margin: 8px 0 4px;
-  font-size: 16px;
+  font-size: var(--text-base);
 }
 .description {
   white-space: pre-wrap;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.55;
 }
 .ticket-bottom {
@@ -455,7 +459,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   gap: 7px;
   flex-wrap: wrap;
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--text-small);
   color: var(--muted);
 }
 
@@ -469,7 +473,7 @@ dialog {
 dialog::backdrop { background: var(--backdrop); }
 dialog p {
   margin: 14px 0 20px;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.55;
   color: var(--muted);
 }
@@ -485,13 +489,13 @@ dialog p {
   margin-top: 20px;
 }
 .form-hint {
-  font-size: 12px;
+  font-size: var(--text-small);
   color: var(--muted);
 }
 .load-state {
   padding: 20px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--text-base);
 }
 .skip {
   position: absolute;
@@ -516,7 +520,6 @@ dialog p {
     min-height: 58px;
     gap: 8px;
   }
-  .brand { font-size: 19px; }
   main { padding-block-start: 18px; }
   .status-board {
     --tile-spacing: 18px;
@@ -526,7 +529,6 @@ dialog p {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: var(--tile-spacing);
   }
-  .totals dd { font-size: 28px; }
   .service-grid, .support-grid { grid-template-columns: 1fr; }
   .service-card h2 { margin-top: 10px; }
   .card-bottom {
@@ -536,9 +538,7 @@ dialog p {
   .support-grid { margin-top: 20px; }
   .panel { padding: 18px; }
   .new-request { grid-row: 1; }
-  input, select, textarea { font-size: 16px; }
 }
 @media (max-width: 380px) {
-  .totals dt { font-size: 11px; }
   .theme-toggle span { display: none; }
 }

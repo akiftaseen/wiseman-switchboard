@@ -18,7 +18,7 @@ function ServiceCard({ service, onRecordCheck }) {
     <article className="service-card">
       <div className="service-top">
         <span className="service-icon">
-          <Icon size={22} strokeWidth={1.7} />
+          <Icon size={30} strokeWidth={1.7} aria-hidden="true" />
         </span>
         <Badge value={service.status} />
       </div>
