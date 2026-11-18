@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ArrowUpRight, CircleAlert, Clock3, FolderClosed, Mail, ShieldCheck } from 'lucide-react';
-import { statuses } from '../../shared/domain.js';
+import { ArrowUpRight, CircleAlert, Clock3, FolderClosed, Mail, Server, ShieldCheck } from 'lucide-react';
+import { statuses, UP } from '../../shared/domain.js';
 import { formatTime } from '../format.js';
 import Badge from './Badge.jsx';
 import CheckDialog from './CheckDialog.jsx';
@@ -12,7 +12,7 @@ const serviceDetails = {
 };
 
 function ServiceCard({ service, onRecordCheck }) {
-  const { icon: Icon, description } = serviceDetails[service.id];
+  const { icon: Icon, description } = Object.hasOwn(serviceDetails, service.id) ? serviceDetails[service.id] : { icon: Server };
 
   return (
     <article className="service-card">
@@ -23,7 +23,7 @@ function ServiceCard({ service, onRecordCheck }) {
         <Badge value={service.status} />
       </div>
       <h2>{service.name}</h2>
-      <p>{description}</p>
+      {description && <p>{description}</p>}
       <div className="card-bottom">
         <div className="checked">
           <span><Clock3 size={12} /> Last checked</span>
@@ -44,10 +44,10 @@ export default function Services({ services, onUpdate }) {
 
   for (const service of services) counts[service.status]++;
 
-  const affected = services.filter(service => service.status !== 'Operational');
+  const affected = services.filter(service => service.status !== UP);
   const summary = affected.length
     ? affected.map(service => `${service.name} is ${service.status.toLowerCase()}.`).join(' ')
-    : 'All services are operational.';
+    : 'All services are up.';
 
   function openCheckDialog(service) {
     setNotice('');

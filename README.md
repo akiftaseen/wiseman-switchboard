@@ -18,36 +18,36 @@ Open [Switchboard](http://127.0.0.1:3001). Express serves both the built fronten
 
 ### Development
 
-After `npm ci`, start the backend with `npm run server`. In a second terminal in the same folder, run `npm run dev`. Open [the Vite development page](http://127.0.0.1:5173). Vite forwards requests under `/api` to Express on port 3001. Restart the backend after changing server code. Vite updates the frontend as you edit.
+After `npm ci`, start the backend with `npm start`. In a second terminal in the same folder, run `npm run dev`. Open [the Vite development page](http://127.0.0.1:5173). Vite forwards requests under `/api` to Express on port 3001. Restart the backend after changing server code. Vite updates the frontend as you edit.
 
 Both servers bind to 127.0.0.1. To preview the phone layout on the same computer, use your browser’s responsive device mode. Optional environment variables are `PORT` for the API port (give both development terminals the same value) and `DB_PATH` for a separate database file. Defaults work without configuration.
 
-## Try the workflow
-
 After pulling an update, stop the running server with Ctrl+C, then run `npm run build && npm start` to load the latest UI and API.
+
+## Try the workflow
 
 Use the header appearance button to switch themes. The initial appearance follows your device preference, and your selection is saved in the browser.
 
-1. On a fresh database, Email and File Share are **Operational** (Up) and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Operational** and save. Recording the same status also updates its check time. Refresh and inspect the card.
+1. On a fresh database, Email and File Share are **Up** and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Up** and save. Recording the same status also updates its check time. Refresh and inspect the card.
 2. In **New request**, try submitting an empty form to see field-specific guidance. Then enter a sample employee name, choose an issue type and describe the problem. Submit once. Look for the assigned request ID, a cleared form and the new Open request at the top of the queue. Failed saves leave the draft available for retry.
 3. A queue item shows its ID, employee, issue type, description, submission time and state. Select **Open**, mark the item resolved, then select **Resolved** to find it again. On a resolved request, choose **Reopen** to move it back to **Open**. Restart Express and reload the page to check persistence. A fresh database starts with an empty queue.
-4. Run `npm test` for the six automated API tests. Each uses a disposable database. Coverage includes seeding, same-status checks, validation, ordering, repeated state changes, missing records and persistence after closing and reopening SQLite.
+4. Run `npm test` for the automated API tests. These tests cover the API and SQLite, using disposable databases. Coverage includes seeding, same-status checks, validation, ordering, repeated state changes, missing records and persistence after closing and reopening SQLite.
 
 ## Implementation
 
 React and Vite build the interface. Plain CSS supplies the responsive grid, focus outlines and text-labelled status colors. Lucide React supplies icons. Express receives JSON requests and uses Node’s built-in SQLite library. No separate database server or native npm SQLite module is required.
 
-On first start, `server/db.js` creates `data/servicedesk.sqlite`. The seed inserts missing service IDs and preserves existing timestamps and statuses. Only submitted requests appear in the queue. UTC timestamps are stored in SQLite and formatted in the viewer’s local time. The database and SQLite’s journal files are excluded from Git.
+On first start, `server/db.js` creates `data/servicedesk.sqlite`. The seed inserts missing service IDs and preserves existing checks. On startup, older databases migrate the stored status from Operational to Up without changing the timestamps or deleting requests. Only submitted requests appear in the queue. UTC timestamps are stored in SQLite and formatted in the viewer’s local time. The database and SQLite’s journal files are excluded from Git.
 
 | Method and route | Input | Successful response |
 | --- | --- | --- |
 | GET /api/services | — | 200, three service records |
-| PATCH /api/services/:id | `{"status":"Operational"}` | 200, saved service and check time |
+| PATCH /api/services/:id | `{"status":"Up"}` | 200, saved service and check time |
 | GET /api/requests | — | 200, requests newest first, with ID breaking timestamp ties |
 | POST /api/requests | `{"name":"Sam","issueType":"VPN","description":"Sign-in stops."}` | 201, saved Open request |
 | PATCH /api/requests/:id | `{"state":"Resolved"}` or `{"state":"Open"}` | 200, saved request |
 
-Service IDs are `email`, `vpn` and `file-share`. Status values are Operational, Degraded and Down. Issue types are Email, VPN, File Share, Hardware and Other. The API accepts uncompressed JSON on writes, validates field types and lengths, and returns a JSON `error` message on failure. Invalid request fields also receive a `fields` map. Invalid input returns 400, missing records 404, oversized bodies 413 and unsupported content types 415.
+Service IDs are `email`, `vpn` and `file-share`. Status values are Up, Degraded and Down. Issue types are Email, VPN, File Share, Hardware and Other. The API accepts uncompressed JSON on writes, validates field types and lengths, and returns a JSON `error` message on failure. Invalid request fields also receive a `fields` map. Invalid input returns 400, missing records 404, oversized bodies 413 and unsupported content types 415.
 
 ### Project structure
 
@@ -77,7 +77,10 @@ ASSESSMENT_ANSWERS.md          Private hosting, backups and support response
 AI_USAGE.md                    Tools and references
 DEMO_SCRIPT.md                 Timed recording outline
 INTERVIEW_NOTES.md             Technical decisions and trade-offs
+specification.md               File-by-file technical walkthrough
 ```
+
+For a deeper walkthrough of the code, see [the specification](specification.md).
 
 ### Scope
 

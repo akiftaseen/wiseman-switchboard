@@ -1,7 +1,7 @@
 /* Color and type tokens are shared by both appearances. */
 :root {
   color-scheme: light;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   font-size: var(--text-base);
   color: var(--ink);
@@ -19,8 +19,8 @@
   --action-hover: #1c232c;
   --on-action: #ffffff;
   --focus: #0879ad;
-  --operational: #135c48;
-  --operational-surface: #d9f2e6;
+  --up: #135c48;
+  --up-surface: #d9f2e6;
   --degraded: #744608;
   --degraded-surface: #ffebbe;
   --down: #892d45;
@@ -51,8 +51,8 @@
   --action-hover: #fbfbfc;
   --on-action: #171717;
   --focus: #9aceff;
-  --operational: #9ce5cb;
-  --operational-surface: #213b32;
+  --up: #9ce5cb;
+  --up-surface: #213b32;
   --degraded: #f7d795;
   --degraded-surface: #3b2f1d;
   --down: #f6b4c7;
@@ -69,7 +69,7 @@ button, input, select, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button, select { cursor: pointer; }
 button { color: inherit; }
-button:disabled {
+button:disabled, button[aria-disabled="true"] {
   opacity: .6;
   cursor: wait;
 }
@@ -92,7 +92,7 @@ svg { flex-shrink: 0; }
   border-bottom: 1px solid var(--line);
 }
 .mast-inner, .brand, .panel-heading, .service-top, .card-bottom,
-.text-button, .badge, .sample-note, .ticket-heading, .dialog-actions, .primary-button, .feedback {
+.sample-note, .ticket-heading, .dialog-actions, .primary-button, .feedback {
   display: flex;
   align-items: center;
 }
@@ -103,7 +103,7 @@ svg { flex-shrink: 0; }
 .brand {
   text-decoration: none;
   gap: 9px;
-  font-weight: 730;
+  font-weight: 700;
   font-size: var(--text-base);
   letter-spacing: -.025em;
 }
@@ -167,7 +167,7 @@ main { padding-block: 28px 52px; }
   border-radius: 10px;
 }
 .totals .badge {
-  display: flex;
+  width: 100%;
   justify-content: center;
   border-radius: 0;
   padding: 8px 4px;
@@ -208,17 +208,19 @@ main { padding-block: 28px 52px; }
 }
 .badge {
   display: inline-flex;
+  align-items: center;
   gap: 6px;
   border-radius: 30px;
   padding: 4px 9px;
   font-size: var(--text-small);
-  font-weight: 650;
+  font-weight: 600;
   white-space: nowrap;
   line-height: 1.2;
 }
-.badge.operational, .badge.resolved {
-  color: var(--operational);
-  background: var(--operational-surface);
+/* Badge adds a lowercase class from its status value. */
+.badge.up, .badge.resolved {
+  color: var(--up);
+  background: var(--up-surface);
 }
 .badge.degraded {
   color: var(--degraded);
@@ -268,13 +270,14 @@ main { padding-block: 28px 52px; }
 }
 .text-button {
   display: inline-flex;
+  align-items: center;
   gap: 4px;
   border: 0;
   padding: 5px 0;
   background: transparent;
   color: var(--accent);
   font-size: var(--text-small);
-  font-weight: 650;
+  font-weight: 600;
 }
 .sample-note {
   font-size: var(--text-small);
@@ -286,7 +289,7 @@ main { padding-block: 28px 52px; }
 /* Support form and request queue */
 .support-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.47fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   align-items: start;
   gap: 18px;
   margin-top: 28px;
@@ -330,12 +333,12 @@ main { padding-block: 28px 52px; }
   border-color: var(--line);
   color: var(--ink);
   box-shadow: 0 1px 2px var(--shadow);
-  font-weight: 650;
+  font-weight: 600;
 }
 .empty {
   border: 1px dashed var(--line);
   border-radius: 10px;
-  min-height: 197px;
+  min-height: 196px;
   background: var(--well);
   text-align: center;
   display: grid;
@@ -394,7 +397,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   border-radius: 7px;
   padding: 10px 15px;
   font-size: var(--text-small);
-  font-weight: 650;
+  font-weight: 600;
 }
 .primary-button {
   justify-content: center;
@@ -404,7 +407,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   border: 1px solid var(--action);
 }
 .primary-button:hover { background: var(--action-hover); }
-:root:not([data-theme="dark"]) #new-request .primary-button {
+:root:not([data-theme="dark"]) .submit-button {
   --action: #000;
   --action-hover: #202020;
 }
@@ -418,7 +421,7 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   font-size: var(--text-small);
 }
 .feedback:not(:empty) { margin-top: 8px; }
-.feedback:empty { display: none; }
+.feedback:empty { position: absolute; }
 .tickets {
   margin: 0;
   padding: 0;
@@ -537,7 +540,6 @@ dialog p {
   }
   .totals dt { display: flex; }
   .totals .badge {
-    align-items: center;
     width: 112px;
   }
   .totals dd { flex: 1; }

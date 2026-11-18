@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Check, Inbox, RotateCcw, Ticket } from 'lucide-react';
-import { requestStates } from '../../shared/domain.js';
+import { OPEN, requestStates, RESOLVED } from '../../shared/domain.js';
 import { api } from '../api.js';
 import { formatTime, ticketId } from '../format.js';
 import Badge from './Badge.jsx';
@@ -12,18 +12,20 @@ function RequestItem({ item, onStateChange }) {
   const [error, setError] = useState('');
   const label = ticketId(item.id);
 
-  const isOpen = item.state === 'Open';
-  const nextState = isOpen ? 'Resolved' : 'Open';
+  const isOpen = item.state === OPEN;
+  const nextState = isOpen ? RESOLVED : OPEN;
   const ActionIcon = isOpen ? Check : RotateCcw;
   const action = isOpen ? 'Mark resolved' : 'Reopen';
 
-  async function updateState() {
+  async function updateState(event) {
+    if (saving) return;
+    const button = event.currentTarget;
     setSaving(true);
     setError('');
 
     try {
       const updated = await api(`requests/${item.id}`, 'PATCH', { state: nextState });
-      onStateChange(updated);
+      onStateChange(updated, document.activeElement === button);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -45,7 +47,7 @@ function RequestItem({ item, onStateChange }) {
           type="button"
           className="text-button"
           onClick={updateState}
-          disabled={saving}
+          aria-disabled={saving}
           aria-label={isOpen ? `Mark ${label} resolved` : `Reopen ${label}`}
         >
           <ActionIcon size={14} aria-hidden="true" />
@@ -68,14 +70,25 @@ function EmptyQueue({ filter }) {
   );
 }
 
-export default function RequestQueue({ items, filter, onFilterChange, onStateChange, children }) {
+export default function RequestQueue({ items, filter, onFilterChange, onStateChange, loadMessage }) {
   const visibleItems = items.filter(item => filter === 'All' || item.state === filter);
-  let content = children;
+  const activeFilter = useRef(null);
+  const [notice, setNotice] = useState('');
+  let content = loadMessage;
+
+  function reportStateChange(updated, restoreFocus) {
+    if (filter !== 'All' && filter !== updated.state && restoreFocus) {
+      activeFilter.current?.focus();
+    }
+    onStateChange(updated);
+    const action = updated.state === RESOLVED ? 'marked resolved' : 'reopened';
+    setNotice(`${ticketId(updated.id)} ${action}.`);
+  }
 
   if (!content && visibleItems.length) {
     content = (
       <ul className="tickets">
-        {visibleItems.map(item => <RequestItem key={item.id} item={item} onStateChange={onStateChange} />)}
+        {visibleItems.map(item => <RequestItem key={item.id} item={item} onStateChange={reportStateChange} />)}
       </ul>
     );
   }
@@ -92,6 +105,7 @@ export default function RequestQueue({ items, filter, onFilterChange, onStateCha
             key={value}
             type="button"
             aria-pressed={filter === value}
+            ref={filter === value ? activeFilter : null}
             onClick={() => onFilterChange(value)}
           >
             {value}
@@ -99,6 +113,7 @@ export default function RequestQueue({ items, filter, onFilterChange, onStateCha
         ))}
       </div>
       {content || <EmptyQueue filter={filter} />}
+      <div role="status" className="feedback">{notice}</div>
     </section>
   );
 }

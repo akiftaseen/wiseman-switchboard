@@ -24,7 +24,7 @@ export function createApp(db) {
   app.patch('/api/services/:id', (req, res) => {
     const { status } = req.body ?? {};
     if (!statuses.includes(status)) {
-      return res.status(400).json({ error: 'Choose Operational, Degraded, or Down.' });
+      return res.status(400).json({ error: `Choose one of: ${statuses.join(', ')}.` });
     }
 
     const service = queries.recordCheck.get(status, new Date().toISOString(), req.params.id);
@@ -58,7 +58,7 @@ export function createApp(db) {
     }
     const state = req.body?.state;
     if (!requestStates.includes(state)) {
-      return res.status(400).json({ error: 'Choose Open or Resolved.' });
+      return res.status(400).json({ error: `Choose one of: ${requestStates.join(', ')}.` });
     }
 
     const request = queries.updateRequestState.get(state, req.params.id);

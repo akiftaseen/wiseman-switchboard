@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { api } from './api.js';
-import { ticketId } from './format.js';
 import Services from './components/Services.jsx';
 import RequestForm from './components/RequestForm.jsx';
 import RequestQueue from './components/RequestQueue.jsx';
@@ -56,7 +55,6 @@ export default function App() {
   const services = useCollection('services');
   const requests = useCollection('requests');
   const [filter, setFilter] = useState('All');
-  const [notice, setNotice] = useState('');
 
   function updateService(updated) {
     services.setItems(items => items.map(item => item.id === updated.id ? updated : item));
@@ -65,13 +63,10 @@ export default function App() {
   function addRequest(created) {
     requests.setItems(items => [created, ...items]);
     setFilter('All');
-    setNotice('');
   }
 
   function updateRequestState(updated) {
     requests.setItems(items => items.map(item => item.id === updated.id ? updated : item));
-    const action = updated.state === 'Resolved' ? 'marked resolved' : 'reopened';
-    setNotice(`${ticketId(updated.id)} ${action}.`);
   }
 
   return (
@@ -98,12 +93,10 @@ export default function App() {
             filter={filter}
             onFilterChange={setFilter}
             onStateChange={updateRequestState}
-          >
-            {!requests.ready && <LoadState collection={requests} />}
-          </RequestQueue>
+            loadMessage={!requests.ready ? <LoadState collection={requests} /> : null}
+          />
           <RequestForm ready={requests.ready} onCreate={addRequest} />
         </div>
-        <div role="status" className="feedback">{notice}</div>
       </main>
     </>
   );

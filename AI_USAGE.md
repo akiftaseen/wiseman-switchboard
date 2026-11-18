@@ -2,9 +2,9 @@
 
 OpenAI Codex assisted with the original prototype and this revision. It generated the React/Vite scaffolding, dashboard and responsive CSS, Express routes, SQLite initialization, API tests, and drafts of the README, assessment answers and recording outline. The revision keeps the original repository history and sample service checks.
 
-Codex installed the dependencies, built the frontend and ran the six API tests. It also exercised the built React interface in a simulated DOM connected to the real Express app and a temporary SQLite file, and ran a local SQLite backup-and-restore drill. A follow-up browser check covered the Wiseman logo, light and dark modes, a phone-width layout, and the saved status and request workflow.
+Codex installed the dependencies, built the frontend and ran the API tests. It also exercised the built React interface in a simulated DOM connected to the real Express app and a temporary SQLite file, and ran a local SQLite backup-and-restore drill. A follow-up browser check covered the Wiseman logo, light and dark modes, a phone-width layout, and the saved status and request workflow.
 
-Claude provided a second review of the Node version requirement, dependency warnings, and written answers. Codex checked the feedback against the project and implemented the follow-up changes.
+Claude provided a second review of the Node version requirement, dependency warnings, written answers, accessibility, and maintainability. Codex checked the feedback against the project and implemented the follow-up changes.
 
 Technical references used for the implementation and written answers
 

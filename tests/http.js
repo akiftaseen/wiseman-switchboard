@@ -2,7 +2,7 @@ import { request } from 'node:http';
 import { duplexPair } from 'node:stream';
 
 // Exercise Node's real HTTP parser and Express without binding a public or local port.
-export function send(server, path, method = 'GET', body, contentType = 'application/json', extraHeaders = {}) {
+export function send(server, path, { method = 'GET', body, contentType = 'application/json', extraHeaders = {} } = {}) {
   const [client, peer] = duplexPair();
   server.emit('connection', peer);
   const payload = typeof body === 'string' ? body : JSON.stringify(body);

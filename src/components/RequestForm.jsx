@@ -97,8 +97,9 @@ export default function RequestForm({ onCreate, ready }) {
           {fieldMessage('description')}
         </div>
         {submitError && <p role="alert" className="error">{submitError}</p>}
-        {!ready && <p className="form-hint">Submission is available once the request queue loads.</p>}
-        <button className="primary-button" disabled={submitting || !ready}>
+        {/* Wait for the first load so its response cannot replace a newly submitted request. */}
+        {!ready && <p className="form-hint">Submission is available once the request queue loads. Use Retry in the queue if loading failed.</p>}
+        <button className="primary-button submit-button" disabled={submitting || !ready}>
           {submitting ? 'Submitting…' : 'Submit request'}
           <Send size={15} />
         </button>
