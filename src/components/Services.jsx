@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Activity, ArrowUpRight, CircleAlert, Clock3, FolderClosed, Mail, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, CircleAlert, Clock3, FolderClosed, Mail, ShieldCheck } from 'lucide-react';
 import { statuses } from '../../shared/domain.js';
 import { formatTime } from '../format.js';
 import Badge from './Badge.jsx';
@@ -17,7 +17,7 @@ function ServiceCard({ service, onRecordCheck }) {
   return (
     <article className="service-card">
       <div className="service-top">
-        <span className={`service-icon ${service.id}`}>
+        <span className="service-icon">
           <Icon size={22} strokeWidth={1.7} />
         </span>
         <Badge value={service.status} />
@@ -40,7 +40,7 @@ function ServiceCard({ service, onRecordCheck }) {
 export default function Services({ services, onUpdate }) {
   const [editing, setEditing] = useState(null);
   const [notice, setNotice] = useState('');
-  const counts = { Operational: 0, Degraded: 0, Down: 0 };
+  const counts = Object.fromEntries(statuses.map(status => [status, 0]));
 
   for (const service of services) counts[service.status]++;
 
@@ -49,9 +49,7 @@ export default function Services({ services, onUpdate }) {
   if (counts.Down === services.length) heading = 'Service outage';
   else if (affected.length) heading = 'Partial disruption';
 
-  const summary = affected.length
-    ? affected.map(service => `${service.name} is marked ${service.status.toLowerCase()}.`).join(' ')
-    : 'All three services are marked operational.';
+  const summary = affected.map(service => `${service.name} is marked ${service.status.toLowerCase()}.`).join(' ');
 
   function openCheckDialog(service) {
     setNotice('');
@@ -68,15 +66,14 @@ export default function Services({ services, onUpdate }) {
     <section aria-label="Service status">
       <div className="status-board">
         <div className="board-copy">
-          <div className="board-label"><Activity size={16} aria-hidden="true" /> SERVICE OVERVIEW</div>
-          <h2>{heading}</h2>
-          <p>{summary}</p>
+          <h2>Service overview</h2>
+          <p>{heading}.{summary && ` ${summary}`}</p>
         </div>
         <dl className="totals">
           {statuses.map(status => (
             <div key={status}>
-              <dt><i className={`dot ${status.toLowerCase()}`} />{status}</dt>
-              <dd>{String(counts[status]).padStart(2, '0')}</dd>
+              <dt>{status}</dt>
+              <dd className={status.toLowerCase()}>{counts[status]}</dd>
             </div>
           ))}
         </dl>

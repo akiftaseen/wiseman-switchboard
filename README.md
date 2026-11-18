@@ -24,6 +24,8 @@ Both servers bind to 127.0.0.1. To preview the phone layout on the same computer
 
 ## Try the workflow
 
+Use the header appearance button to switch themes. The initial appearance follows your device preference, and your selection is saved in the browser.
+
 1. On a fresh database, Email and File Share are **Operational** (Up) and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Operational** and save. Recording the same status also updates its check time. Refresh and inspect the card.
 2. In **New request**, try submitting an empty form to see field-specific guidance. Then enter a sample employee name, choose an issue type and describe the problem. Submit once. Look for the assigned request ID, a cleared form and the new Open request at the top of the queue. Failed saves leave the draft available for retry.
 3. A queue item shows its ID, employee, issue type, description, submission time and state. Select **Open**, mark the item resolved, then select **Resolved** to find it again. Restart Express and reload the page to check persistence. A fresh database starts with an empty queue.
@@ -48,7 +50,7 @@ Service IDs are `email`, `vpn` and `file-share`. Status values are Operational, 
 ### Project structure
 
 ```text
-public/switchboard.svg         Local brand mark and favicon
+public/wiseman.svg             Supplied Wiseman logo and favicon
 src/
   main.jsx, App.jsx            React entry point, dashboard and data loading
   api.js, format.js            API calls, local time and request-ID display
@@ -59,6 +61,7 @@ src/
     RequestForm.jsx            Field validation and submission feedback
     RequestQueue.jsx           Filtered queue and resolution controls
     Badge.jsx                  Shared text and color status indicator
+    ThemeToggle.jsx            Saved light/dark appearance preference
 shared/domain.js               Statuses, issue types and request validation
 server/
   index.js                     Local server startup and shutdown

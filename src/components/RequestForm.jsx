@@ -98,7 +98,7 @@ export default function RequestForm({ onCreate, ready }) {
         </div>
         {submitError && <p role="alert" className="error">{submitError}</p>}
         {!ready && <p className="form-hint">Submission is available once the request queue loads.</p>}
-        <button className="primary-button submit" disabled={submitting || !ready}>
+        <button className="primary-button" disabled={submitting || !ready}>
           {submitting ? 'Submitting…' : 'Submit request'}
           <Send size={15} />
         </button>

@@ -5,6 +5,7 @@ import { ticketId } from './format.js';
 import Services from './components/Services.jsx';
 import RequestForm from './components/RequestForm.jsx';
 import RequestQueue from './components/RequestQueue.jsx';
+import ThemeToggle from './components/ThemeToggle.jsx';
 
 const dateLabel = new Intl.DateTimeFormat(undefined, {
   weekday: 'short',
@@ -86,17 +87,12 @@ export default function App() {
       <header className="masthead">
         <div className="shell mast-inner">
           <a className="brand" href="#main">
-            <img src="/switchboard.svg" width="33" height="33" alt="" />
+            <img src="/wiseman.svg" className="brand-logo" width="33" height="33" alt="" />
             Switchboard
           </a>
           <span className="mast-divider" />
           <span className="workspace">IT workspace</span>
-          <nav aria-label="Dashboard shortcuts">
-            <a href="#queue">Request queue</a>
-            <a className="new-link" href="#new-request">
-              New request <span aria-hidden="true">↗</span>
-            </a>
-          </nav>
+          <ThemeToggle />
         </div>
       </header>
       <main className="shell" id="main">
