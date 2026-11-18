@@ -71,7 +71,7 @@ export default function Services({ services, onUpdate }) {
         </div>
         <dl className="totals">
           {statuses.map(status => (
-            <div key={status} className={status.toLowerCase()}>
+            <div key={status} className={status.toLowerCase()} data-empty={counts[status] === 0}>
               <dt>{status}</dt>
               <dd>{counts[status]}</dd>
             </div>

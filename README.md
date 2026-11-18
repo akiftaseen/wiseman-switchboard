@@ -24,6 +24,8 @@ Both servers bind to 127.0.0.1. To preview the phone layout on the same computer
 
 ## Try the workflow
 
+After pulling an update, stop the running server with Ctrl+C, then run `npm run build && npm start` to load the latest UI and API.
+
 Use the header appearance button to switch themes. The initial appearance follows your device preference, and your selection is saved in the browser.
 
 1. On a fresh database, Email and File Share are **Operational** (Up) and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Operational** and save. Recording the same status also updates its check time. Refresh and inspect the card.
