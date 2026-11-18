@@ -104,7 +104,7 @@ svg { flex-shrink: 0; }
   text-decoration: none;
   gap: 9px;
   font-weight: 730;
-  font-size: var(--text-display);
+  font-size: var(--text-base);
   letter-spacing: -.025em;
 }
 :root[data-theme="dark"] .brand-logo {
@@ -141,7 +141,7 @@ main { padding-block: 28px 52px; }
   gap: var(--tile-spacing);
 }
 .board-copy h1 {
-  font-size: var(--text-base);
+  font-size: var(--text-display);
   margin-bottom: 7px;
   letter-spacing: -.035em;
   line-height: 1.15;
@@ -160,14 +160,20 @@ main { padding-block: 28px 52px; }
 .totals > div {
   display: flex;
   flex-direction: column-reverse;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 4px;
+  text-align: center;
+  overflow: hidden;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
 }
+.totals .badge {
+  display: flex;
+  justify-content: center;
+  border-radius: 0;
+  padding: 8px 4px;
+}
 .totals dd {
+  padding: 12px 4px;
   font-size: var(--text-display);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -528,10 +534,11 @@ dialog p {
   }
   .totals > div {
     flex-direction: row-reverse;
-    justify-content: space-between;
-    padding: 10px 12px;
   }
-}
-@media (max-width: 380px) {
-  .brand { font-size: var(--text-base); }
+  .totals dt { display: flex; }
+  .totals .badge {
+    align-items: center;
+    width: 112px;
+  }
+  .totals dd { flex: 1; }
 }
