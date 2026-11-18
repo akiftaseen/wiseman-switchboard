@@ -141,7 +141,7 @@ main { padding-block: 28px 52px; }
   gap: var(--tile-spacing);
 }
 .board-copy h1 {
-  font-size: var(--text-display);
+  font-size: var(--text-base);
   margin-bottom: 7px;
   letter-spacing: -.035em;
   line-height: 1.15;
@@ -416,6 +416,10 @@ input::placeholder, textarea::placeholder { color: var(--muted); }
   border: 1px solid var(--action);
 }
 .primary-button:hover { background: var(--action-hover); }
+:root:not([data-theme="dark"]) #new-request .primary-button {
+  --action: #000;
+  --action-hover: #202020;
+}
 .secondary-button, .icon-button {
   background: var(--paper);
   border: 1px solid var(--line);
