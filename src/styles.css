@@ -111,9 +111,8 @@ svg { flex-shrink: 0; }
   font-size: 13px;
   color: var(--muted);
 }
-.brand-logo {
-  background: #fff;
-  border-radius: 8px;
+:root[data-theme="dark"] .brand-logo {
+  filter: brightness(1.8);
 }
 .theme-toggle {
   display: inline-flex;
