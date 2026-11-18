@@ -1,5 +1,0 @@
-[
-  {"id":"email","name":"Email","description":"Company inboxes and calendars","status":"Up","checked_at":"2026-11-18T09:30:00Z"},
-  {"id":"vpn","name":"VPN","description":"Remote access to the company network","status":"Degraded","checked_at":"2026-11-18T09:32:00Z"},
-  {"id":"file-share","name":"File share","description":"Shared folders and documents","status":"Up","checked_at":"2026-11-18T09:31:00Z"}
-]
