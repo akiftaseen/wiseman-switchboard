@@ -45,11 +45,9 @@ export default function Services({ services, onUpdate }) {
   for (const service of services) counts[service.status]++;
 
   const affected = services.filter(service => service.status !== 'Operational');
-  let heading = 'All services operational';
-  if (counts.Down === services.length) heading = 'Service outage';
-  else if (affected.length) heading = 'Partial disruption';
-
-  const summary = affected.map(service => `${service.name} is marked ${service.status.toLowerCase()}.`).join(' ');
+  const summary = affected.length
+    ? affected.map(service => `${service.name} is ${service.status.toLowerCase()}.`).join(' ')
+    : 'All services are operational.';
 
   function openCheckDialog(service) {
     setNotice('');
@@ -67,7 +65,7 @@ export default function Services({ services, onUpdate }) {
       <div className="status-board">
         <div className="board-copy">
           <h1>Service overview</h1>
-          <p>{heading}.{summary && ` ${summary}`}</p>
+          <p>{summary}</p>
         </div>
         <dl className="totals">
           {statuses.map(status => (

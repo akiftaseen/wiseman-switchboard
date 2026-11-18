@@ -191,6 +191,39 @@ main { padding-block: 28px 52px; }
   --tile-color: var(--muted);
   --tile-surface: var(--paper);
 }
+/* Light mode presents the counts as one group inside the overview. */
+:root:not([data-theme="dark"]) .totals {
+  gap: 0;
+}
+:root:not([data-theme="dark"]) .totals > div {
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+:root:not([data-theme="dark"]) .totals > div + div {
+  border-inline-start: 1px solid var(--line);
+}
+:root:not([data-theme="dark"]) .totals dd {
+  color: var(--ink);
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+:root:not([data-theme="dark"]) .totals [data-empty="true"] dd {
+  color: var(--muted);
+}
+:root:not([data-theme="dark"]) .totals dt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+:root:not([data-theme="dark"]) .totals dt::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tile-color);
+}
 .service-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -528,6 +561,10 @@ dialog p {
   .totals {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: var(--tile-spacing);
+  }
+  :root:not([data-theme="dark"]) .totals {
+    border-top: 1px solid var(--line);
+    padding-top: var(--tile-spacing);
   }
   .service-grid, .support-grid { grid-template-columns: 1fr; }
   .service-card h2 { margin-top: 10px; }
