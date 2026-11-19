@@ -16,9 +16,9 @@ SQLite fits this exercise because the app runs on one host and stores a small am
 
 OpenAI Codex assisted with the original prototype and this revision. It generated the React/Vite scaffolding, dashboard and responsive CSS, Express routes, SQLite initialization, API tests, and drafts of the README, assessment answers and recording outline. The revision keeps the original repository history and sample service checks.
 
-Codex installed the dependencies, built the frontend and ran the API tests. It also exercised the built React interface in a simulated DOM connected to the real Express app and a temporary SQLite file, and ran a local SQLite backup-and-restore drill. A follow-up browser check covered the Wiseman logo, light and dark modes, a phone-width layout, and the saved status and request workflow.
+Codex installed the dependencies, built the frontend and ran the API tests.
 
-Claude provided a second review of the Node version requirement, dependency warnings, written answers, accessibility, and maintainability. Codex checked the feedback against the project and implemented the follow-up changes.
+Claude (Anthropic) reviewed the project against the brief, including the Node version requirement, dependency warnings, written answers, accessibility, and maintainability. At one point Claude also edited the code directly (commit `1f96234`, which also included Codex’s uncommitted changes from that time). Those edits were reverted in `71136bc`, and Codex then checked the review feedback against the project and implemented the follow-up changes. Claude also checked the final repository by cloning it fresh, installing, running the tests and build, and walking through the status, request and resolve workflow in a browser at desktop and phone widths.
 
 Technical references used for the implementation and written answers
 
