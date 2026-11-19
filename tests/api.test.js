@@ -149,6 +149,7 @@ test('migrates legacy service status without losing checks or requests', t => {
   for (let run = 0; run < 2; run++) {
     const db = openDatabase(path);
     try {
+      assert.equal(db.prepare('PRAGMA user_version').get().user_version, 1);
       assert.deepEqual({ ...db.prepare("SELECT status, checkedAt FROM services WHERE id = 'email'").get() }, {
         status: 'Up',
         checkedAt: '2026-01-01T00:00:00.000Z'
@@ -159,5 +160,22 @@ test('migrates legacy service status without losing checks or requests', t => {
     } finally {
       db.close();
     }
+  }
+});
+
+test('adopts an unversioned database already using Up', t => {
+  const folder = mkdtempSync(join(tmpdir(), 'switchboard-unversioned-'));
+  t.after(() => rmSync(folder, { recursive: true, force: true }));
+  const path = join(folder, 'unversioned.sqlite');
+  const original = openDatabase(path);
+  original.exec("PRAGMA user_version = 0; UPDATE services SET status = 'Down' WHERE id = 'email';");
+  original.close();
+
+  const db = openDatabase(path);
+  try {
+    assert.equal(db.prepare('PRAGMA user_version').get().user_version, 1);
+    assert.equal(db.prepare("SELECT status FROM services WHERE id = 'email'").get().status, 'Down');
+  } finally {
+    db.close();
   }
 });
