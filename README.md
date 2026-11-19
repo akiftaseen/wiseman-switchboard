@@ -37,7 +37,7 @@ Use the header appearance button to switch themes. Switchboard opens in dark mod
 
 React and Vite build the interface. Plain CSS supplies the responsive grid, focus outlines and text-labelled status colors. Lucide React supplies icons. Express receives JSON requests and uses Node’s built-in SQLite library. No separate database server or native npm SQLite module is required.
 
-On first start, `server/db.js` creates `data/servicedesk.sqlite`. The seed inserts missing service IDs and preserves existing checks. On startup, older databases migrate the stored status from Operational to Up without changing the timestamps or deleting requests. Only submitted requests appear in the queue. UTC timestamps are stored in SQLite and formatted in the viewer’s local time. The database and SQLite’s journal files are excluded from Git.
+On first start, `server/db.js` creates `data/servicedesk.sqlite`. The seed inserts missing service IDs and preserves existing checks. Only submitted requests appear in the queue. UTC timestamps are stored in SQLite and formatted in the viewer’s local time. The database and SQLite’s journal files are excluded from Git.
 
 | Method and route | Input | Successful response |
 | --- | --- | --- |

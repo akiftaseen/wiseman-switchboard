@@ -2,9 +2,15 @@
 
 ## My contribution
 
-I scoped Switchboard around the needs of a 25-person office. I asked for three sample service statuses with manually recorded check times, a form to report an issue, a persistent request queue with resolution controls, and a layout that works on phones. I specified React and Vite for the interface, Express for the API, and SQLite for local storage.
+I turned the assessment brief into an implementation plan for a 25-person office. I asked for three sample service statuses with manually recorded check times, a form to report an issue, a persistent request queue with resolution controls, and a layout that works on phones. I specified React and Vite for the interface, Express for the API, and SQLite for local storage.
 
-I directed the design iterations. I supplied the Wiseman logo, asked to use its teal in the status palette, simplified the header and status badges, and chose dark mode as the default. I requested a Reopen action so a request could return to the queue if the problem came back. I also brought Claude’s review findings back to Codex, shared my local test and build output, and requested a versioned migration to preserve existing records when Operational became Up.
+I directed the design iterations. I supplied the Wiseman logo, asked to use its teal in the status palette, simplified the header and status badges, and chose dark mode as the default. I requested a Reopen action so a request could return to the queue if the problem came back. I reviewed the generated code at a high level, focusing on how the interface, API and database fit together. I ran the tests and build locally and shared the output. I used Claude for a second review, brought its feedback back to Codex, and asked to simplify database setup around the status values in the brief.
+
+## Why I chose this stack
+
+- **HTML and CSS** give the interface labelled forms and a responsive layout. **JavaScript and React** keep the dashboard, form and request queue in sync as users make changes.
+- **Vite** provides a quick development server and builds the frontend into static files. **Node.js and Express** let the frontend and backend use the same language, with a small set of routes for validation and storage. Express also serves the built frontend.
+- **SQLite** keeps setup to a single local database file. A JSON file would work for the brief, but SQLite lets each status or request update happen atomically, enforces allowed values and supports querying the queue without implementing file locking and rewrites in the app.
 
 ## How the design works
 

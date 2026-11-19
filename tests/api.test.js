@@ -1,5 +1,4 @@
 import { test } from 'node:test';
-import { DatabaseSync } from 'node:sqlite';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { mkdtempSync, rmSync } from 'node:fs';
@@ -124,58 +123,4 @@ test('rejects invalid transitions, invalid IDs, and absent resources', async t =
     assert(result.data.error);
   }
   assert.equal((await call('/api/missing')).status, 404);
-});
-
-test('migrates legacy service status without losing checks or requests', t => {
-  const folder = mkdtempSync(join(tmpdir(), 'switchboard-legacy-'));
-  t.after(() => rmSync(folder, { recursive: true, force: true }));
-  const path = join(folder, 'legacy.sqlite');
-  const legacy = new DatabaseSync(path);
-  legacy.exec(`
-    CREATE TABLE services (
-      id TEXT PRIMARY KEY, name TEXT NOT NULL,
-      status TEXT NOT NULL CHECK (status IN ('Operational','Degraded','Down')),
-      checkedAt TEXT NOT NULL
-    );
-    INSERT INTO services VALUES ('email', 'Email', 'Operational', '2026-01-01T00:00:00.000Z');
-    INSERT INTO services VALUES ('custom', 'Custom', 'Down', '2026-01-02T00:00:00.000Z');
-    CREATE TABLE requests (
-      id INTEGER PRIMARY KEY, name TEXT, issueType TEXT, description TEXT, createdAt TEXT, state TEXT
-    );
-    INSERT INTO requests VALUES (17, 'Sam', 'Email', 'A saved request', '2026-01-01', 'Open');
-  `);
-  legacy.close();
-
-  for (let run = 0; run < 2; run++) {
-    const db = openDatabase(path);
-    try {
-      assert.equal(db.prepare('PRAGMA user_version').get().user_version, 1);
-      assert.deepEqual({ ...db.prepare("SELECT status, checkedAt FROM services WHERE id = 'email'").get() }, {
-        status: 'Up',
-        checkedAt: '2026-01-01T00:00:00.000Z'
-      });
-      assert.equal(db.prepare("SELECT status FROM services WHERE id = 'custom'").get().status, 'Down');
-      assert.equal(db.prepare('SELECT description FROM requests WHERE id = 17').get().description, 'A saved request');
-      assert.throws(() => db.exec("UPDATE services SET status = 'Operational' WHERE id = 'email'"), /CHECK constraint/);
-    } finally {
-      db.close();
-    }
-  }
-});
-
-test('adopts an unversioned database already using Up', t => {
-  const folder = mkdtempSync(join(tmpdir(), 'switchboard-unversioned-'));
-  t.after(() => rmSync(folder, { recursive: true, force: true }));
-  const path = join(folder, 'unversioned.sqlite');
-  const original = openDatabase(path);
-  original.exec("PRAGMA user_version = 0; UPDATE services SET status = 'Down' WHERE id = 'email';");
-  original.close();
-
-  const db = openDatabase(path);
-  try {
-    assert.equal(db.prepare('PRAGMA user_version').get().user_version, 1);
-    assert.equal(db.prepare("SELECT status FROM services WHERE id = 'email'").get().status, 'Down');
-  } finally {
-    db.close();
-  }
 });
