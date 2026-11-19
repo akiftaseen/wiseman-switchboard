@@ -69,7 +69,7 @@ export default function Services({ services, onUpdate }) {
         </div>
         <dl className="totals">
           {statuses.map(status => (
-            <div key={status}>
+            <div key={status} className={counts[status] === 0 ? 'zero-count' : undefined}>
               <dt><Badge value={status} /></dt>
               <dd>{counts[status]}</dd>
             </div>

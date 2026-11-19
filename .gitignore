@@ -9,3 +9,8 @@ data/
 !.env.example
 .DS_Store
 *.log
+
+# Local assessment preparation
+/DEMO_SCRIPT.md
+/INTERVIEW_NOTES.md
+/specification.md

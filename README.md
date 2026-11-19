@@ -75,12 +75,7 @@ package.json, package-lock.json    Scripts and dependency versions
 .nvmrc, .gitignore             Node version and generated-file exclusions
 ASSESSMENT_ANSWERS.md          Private hosting, backups and support response
 AI_USAGE.md                    Tools and references
-DEMO_SCRIPT.md                 Timed recording outline
-INTERVIEW_NOTES.md             Technical decisions and trade-offs
-specification.md               File-by-file technical walkthrough
 ```
-
-For a deeper walkthrough of the code, see [the specification](specification.md).
 
 ### Scope
 

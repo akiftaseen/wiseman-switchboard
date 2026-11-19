@@ -172,6 +172,10 @@ main { padding-block: 28px 52px; }
   border-radius: 0;
   padding: 8px 4px;
 }
+.totals .zero-count .badge {
+  color: var(--muted);
+  background: transparent;
+}
 .totals dd {
   padding: 12px 4px;
   font-size: var(--text-display);
