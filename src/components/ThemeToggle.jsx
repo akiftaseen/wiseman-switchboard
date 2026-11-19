@@ -11,7 +11,7 @@ function initialTheme() {
     // The toggle still works for this visit if the browser blocks storage.
   }
 
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark';
 }
 
 export default function ThemeToggle() {

@@ -26,7 +26,7 @@ After pulling an update, stop the running server with Ctrl+C, then run `npm run 
 
 ## Try the workflow
 
-Use the header appearance button to switch themes. The initial appearance follows your device preference, and your selection is saved in the browser.
+Use the header appearance button to switch themes. Switchboard opens in dark mode by default and saves your selection in the browser.
 
 1. On a fresh database, Email and File Share are **Up** and VPN is **Degraded**. The three tiles include icons, status text and last-checked times. The overview totals reflect the saved records. Click **Record check** on VPN, select **Down** or **Up** and save. Recording the same status also updates its check time. Refresh and inspect the card.
 2. In **New request**, try submitting an empty form to see field-specific guidance. Then enter a sample employee name, choose an issue type and describe the problem. Submit once. Look for the assigned request ID, a cleared form and the new Open request at the top of the queue. Failed saves leave the draft available for retry.
