@@ -1,7 +1,9 @@
+import { requestStates } from '../../shared/domain.js';
+
 export default function Badge({ value }) {
   return (
     <span className={`badge ${value.toLowerCase()}`}>
-      <i aria-hidden="true" />
+      {requestStates.includes(value) && <i aria-hidden="true" />}
       {value}
     </span>
   );
